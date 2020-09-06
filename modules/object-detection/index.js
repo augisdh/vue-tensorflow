@@ -6,6 +6,7 @@ require("@tensorflow/tfjs-backend-webgl");
 const cocoSsd = require("@tensorflow-models/coco-ssd");
 
 let model;
+let modelLoaded = false;
 
 function loadImage(imagePath) {
   const image = fs.readFileSync(path.resolve(imagePath));
@@ -13,11 +14,19 @@ function loadImage(imagePath) {
 }
 
 async function loadModel() {
-  model = await cocoSsd.load();
-  console.log("Model loaded");
+  try {
+    model = await cocoSsd.load();
+    modelLoaded = true;
+    console.log("Model loaded");
+  } catch (error) {
+    modelLoaded = false;
+    console.error("Error", error);
+  }
 }
 
 async function runClasification(imagePath) {
+  if (!modelLoaded) await loadModel();
+
   const imageTensor = loadImage(imagePath);
   return await model.detect(imageTensor);
 }

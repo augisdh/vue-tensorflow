@@ -3,6 +3,7 @@ const cors = require("cors");
 const http = require("http");
 const multer = require("multer");
 const crypto = require("crypto");
+const { runClasification } = require("./modules/object-detection/index");
 const app = express();
 app.use(cors());
 
@@ -18,19 +19,8 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-const {
-  runClasification,
-  loadModel,
-} = require("./modules/object-detection/index");
-let modelLoaded = false;
-
 app.post("/upload", upload.single("photo"), async (req, res) => {
   if (!req.file) return res.send("File not found!");
-
-  if (!modelLoaded) {
-    await loadModel();
-    modelLoaded = true;
-  }
 
   return res.json(await runClasification(req.file.path));
 });
