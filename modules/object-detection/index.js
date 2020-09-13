@@ -1,9 +1,13 @@
 const fs = require("fs");
 const path = require("path");
-const tfnode = require("@tensorflow/tfjs-node");
-require("@tensorflow/tfjs-backend-cpu");
-require("@tensorflow/tfjs-backend-webgl");
+// const tfnode = require("@tensorflow/tfjs-node");
+const tfnode = require("@tensorflow/tfjs-node-gpu");
+// require("@tensorflow/tfjs-backend-cpu");
+// require("@tensorflow/tfjs-backend-webgl");
 const cocoSsd = require("@tensorflow-models/coco-ssd");
+
+// retrain model
+// const tf = require("@tensorflow/tfjs");
 
 let model;
 let modelLoaded = false;
@@ -24,14 +28,18 @@ async function loadModel() {
   }
 }
 
-async function runClasification(imagePath) {
+async function uploadClasification(imagePath) {
   if (!modelLoaded) await loadModel();
 
   const imageTensor = loadImage(imagePath);
   return await model.detect(imageTensor);
 }
 
+async function retrainModel() {
+  console.log("re train model");
+}
+
 module.exports = {
-  runClasification,
-  loadModel,
+  uploadClasification,
+  retrainModel,
 };

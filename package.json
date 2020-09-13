@@ -10,10 +10,13 @@
   "license": "ISC",
   "dependencies": {
     "@tensorflow-models/coco-ssd": "^2.1.0",
+    "@tensorflow/tfjs": "^2.3.0",
     "@tensorflow/tfjs-backend-cpu": "^2.3.0",
     "@tensorflow/tfjs-backend-webgl": "^2.3.0",
     "@tensorflow/tfjs-node": "^2.3.0",
+    "@tensorflow/tfjs-node-gpu": "^2.3.0",
     "cors": "^2.8.5",
+    "csv-parser": "^2.3.3",
     "express": "^4.17.1",
     "multer": "^1.4.2"
   }
